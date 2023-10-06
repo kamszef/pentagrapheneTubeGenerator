@@ -66,8 +66,9 @@ sheet = sheetGenerator(elementarCell, x, y)
 
 print(sheet)
 
-# with open("pentagraphene.xyz", "w") as f:
-#     f.write(str(len(sheet)) + "\n")
-#     f.write("Sheet\n")
-#     for node in sheet:
-#         f.write("C " + str(node[0]) + " " + str(node[1]) + " " + str(node[2]) + "\n")
+with open("pentagraphene.xyz", "w") as f:
+    f.write(str(len(sheet) * 6) + "\n")
+    f.write("Sheet\n")
+    for atom in sheet:
+        for i in range(6):
+            f.write("C " + str(atom["atoms"][i]["coordinates"][0]) + " " + str(atom["atoms"][i]["coordinates"][1]) + " " + str(atom["atoms"][i]["coordinates"][2]) + "\n")
