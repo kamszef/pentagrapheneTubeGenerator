@@ -125,32 +125,23 @@ def calculateStruts (sheet, d22, h):
 
     return struts
 
+def main(d22, h, x, y, isPeriodic):
+    elementarCell = calcElementarCell(d22, h)
+    sheet = sheetGenerator(elementarCell, x, y)
+    struts = calculateStruts(sheet, d22, h)
 
-isPentagraphene = input("Is pentagraphene? (y/n): ")
+    with open("pentagraphene.xyz", "w") as f:
+        f.write(str(len(sheet) * 6) + "\n")
+        f.write("Sheet\n")
+        for atom in sheet:
+            for i in range(6):
+                f.write("C " + str(atom["atoms"][i]["coordinates"][0]) + " " + str(atom["atoms"][i]["coordinates"][1]) + " " + str(atom["atoms"][i]["coordinates"][2]) + "\n")
+        
 
-if isPentagraphene == "y":
-    d22 = 0.3677
-    h = 0.1648
-else:   
-    d22 = float(input("Enter d22: "))
-    h = float(input("Enter h: "))
+    with open("struts.xyz", "w") as f:
+        f.write(str(len(struts)) + "\n")
+        f.write("Struts\n")
+        for strut in struts:
+            f.write(str(strut["strut_id"]) + " " + str(strut["eql_length"]) + " " + str(strut["nodes_connected"]) + "\n")
+
     
-x = int(input("Enter repetitions on x axis: "))
-y = int(input("Enter repetitions on y axis: "))
-
-elementarCell = calcElementarCell(d22, h)
-sheet = sheetGenerator(elementarCell, x, y)
-struts = calculateStruts(sheet, d22, h)
-
-with open("pentagraphene.xyz", "w") as f:
-    f.write(str(len(sheet) * 6) + "\n")
-    f.write("Sheet\n")
-    for atom in sheet:
-        for i in range(6):
-            f.write("C " + str(atom["atoms"][i]["coordinates"][0]) + " " + str(atom["atoms"][i]["coordinates"][1]) + " " + str(atom["atoms"][i]["coordinates"][2]) + "\n")
-
-with open("struts.xyz", "w") as f:
-    f.write(str(len(struts)) + "\n")
-    f.write("Struts\n")
-    for strut in struts:
-        f.write(str(strut["strut_id"]) + " " + str(strut["eql_length"]) + " " + str(strut["nodes_connected"]) + "\n")
